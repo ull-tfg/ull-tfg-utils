@@ -5,7 +5,7 @@ import es.ull.utils.rest.error.ApiError;
 
 public class UllNotFoundException extends UllException {
 
-    public UllNotFoundException() {
+    public UllNotFoundException() { 
         super();
         super.setStatus(HttpStatus.NOT_FOUND);
         super.setMessage(ApiError.MESSAGE_NOT_FOUND);
