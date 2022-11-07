@@ -1,0 +1,64 @@
+# GitHub action to compile a Java project and publish its artifact to GitHub Packages.
+#
+# Requirements:
+# - A Personal access token with the name "GITHUB_TOKEN" and, at least, "write:packages" scope must
+#   be set in the profile of the developer (https://github.com/settings/tokens).
+# - Secrets. In order to execute the GitHub action the following secrets must be set in the project
+# (Settings / Secrets / Actions):
+#   - KAIZTEN_DEVELOPMENT_USERNAME. Username of account kaiztendevelopment.
+#   - KAIZTEN_DEVELOPMENT_PASSWORD. Password of account kaiztendevelopment.
+# - settings.xml. It must contain a profile called "github" and where "PACKAGE_NAME" must be 
+#   replaced by the name of the resulting package, as follows:
+#     <profiles>
+#         <profile>
+#             <id>github</id>
+#             <distributionManagement>
+#                 <repository>
+#                     <id>github</id>
+#                     <name>GitHub Packages</name>
+#                     <url>https://maven.pkg.github.com/kaizten/PACKAGE_NAME</url>
+#                 </repository>
+#             </distributionManagement>
+#         </profile>
+#     </profiles>
+#
+# Author: Kaizten Analytics S.L. (info@kaizten.com)
+
+name: Publish package to GitHub Packages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions: 
+      contents: read
+      packages: write    
+    steps:
+      # Checkout of the repository
+      - name: Checkout
+        uses: actions/checkout@v3
+      # Usage of Java Development Kit
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:       
+          java-version: '17'
+          distribution: 'adopt'
+          server-id: github
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
+      # Compile the Java project
+      - name: Build with Maven
+        run: mvn -B -Pgithub package --file pom.xml
+        env:
+          MAVEN_USERNAME: ${{ secrets.ULLSOFTWARE_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.ULLSOFTWARE_PASSWORD }}
+      # Publish the artefact to GitHub Packages          
+      - name: Publish package
+        run: mvn -Pgithub deploy --file pom.xml
+        env:
+          MAVEN_USERNAME: ${{ github.actor }}
+          MAVEN_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
