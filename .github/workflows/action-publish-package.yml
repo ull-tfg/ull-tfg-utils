@@ -30,7 +30,7 @@ jobs:
         env:
           MAVEN_USERNAME: ${{ secrets.ULLSOFTWARE_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.ULLSOFTWARE_PASSWORD }}
-      # Publish the artefact to GitHub Packages          
+      # Publish the artifact to GitHub Packages          
       - name: Publish package
         run: mvn -Pgithub deploy --file pom.xml
         env:
