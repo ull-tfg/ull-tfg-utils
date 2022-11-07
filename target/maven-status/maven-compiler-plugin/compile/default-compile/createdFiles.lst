@@ -1,0 +1,12 @@
+es/ull/utils/rest/error/ApiSubErrorMessage.class
+es/ull/utils/rest/error/ApiSubError.class
+es/ull/utils/rest/error/ApiPathVariableValidationError.class
+es/ull/utils/rest/pagination/UllPagination.class
+es/ull/utils/string/UllString.class
+es/ull/utils/date/UllDate.class
+es/ull/utils/rest/error/ApiSubErrorMessageRejectedValue.class
+es/ull/utils/rest/exception/UllException.class
+es/ull/utils/rest/exception/UllNotFoundException.class
+es/ull/utils/rest/exception/UllBadRequestException.class
+es/ull/utils/rest/error/ApiSubErrorMessageRejectedValueField.class
+es/ull/utils/rest/error/ApiError.class
