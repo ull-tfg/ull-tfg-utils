@@ -7,7 +7,7 @@
     <groupId>es.ull</groupId>
     <artifactId>ull-utils</artifactId>
     <name>ull-utils</name>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
     <url>https://www.ull.es</url>
 
@@ -138,7 +138,7 @@
                 <repository>
                     <id>github</id>
                     <name>GitHub Packages</name>
-                    <url>https://maven.pkg.github.com/ull-tfg/ull-utils</url>
+                    <url>https://maven.pkg.github.com/ull-tfg/ull-tfg-utils</url>
                 </repository>
             </distributionManagement>
         </profile>
