@@ -3,6 +3,7 @@ package es.ull.utils.date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.concurrent.ThreadLocalRandom;
@@ -119,6 +120,16 @@ public class UllDate {
             throw new NullPointerException("Date to check is not provided");
         }
         return UllDate.isIso(DateTimeFormatter.ISO_INSTANT, date);
+    }
+
+    public static LocalDateTime now() {
+        return UllDate.now(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+    }
+
+    public static LocalDateTime now(DateTimeFormatter formatter) {
+        LocalDateTime date = LocalDateTime.now();
+        String text = date.format(formatter);
+        return LocalDateTime.parse(text, formatter);
     }
 
     public static LocalDate random(LocalDate startInclusive, LocalDate endExclusive) {
