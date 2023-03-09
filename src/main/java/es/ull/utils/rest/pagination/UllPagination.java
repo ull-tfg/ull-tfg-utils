@@ -7,17 +7,19 @@ import org.springframework.data.domain.Page;
 
 public class UllPagination {
 
-    public static String HEADER_PAGINATION_COUNT = "Pagination-Count";
-    public static String HEADER_PAGINATION_SIZE = "Pagination-Size";
-    public static String HEADER_PAGINATION_PAGE = "Pagination-Page";
-    public static String HEADER_TOTAL_COUNT = "Total-Count";
+    public static final String PAGE = "page";
+    public static final String SIZE = "size";
+    public static final String HEADER_PAGINATION_COUNT = "Pagination-Count";
+    public static final String HEADER_PAGINATION_SIZE = "Pagination-Size";
+    public static final String HEADER_PAGINATION_PAGE = "Pagination-Page";
+    public static final String HEADER_TOTAL_COUNT = "Total-Count";
 
     public static List<String> getExposedHeaders() {
-        return Arrays.asList(new String[]{
-            HEADER_PAGINATION_COUNT,
-            HEADER_PAGINATION_SIZE,
-            HEADER_PAGINATION_PAGE,
-            HEADER_TOTAL_COUNT
+        return Arrays.asList(new String[] {
+                HEADER_PAGINATION_COUNT,
+                HEADER_PAGINATION_SIZE,
+                HEADER_PAGINATION_PAGE,
+                HEADER_TOTAL_COUNT
         });
     }
 
