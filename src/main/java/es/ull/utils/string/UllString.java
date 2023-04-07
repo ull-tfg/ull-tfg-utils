@@ -19,4 +19,11 @@ public class UllString {
     public static String randomAlphanumeric(int length) {
         return RandomStringUtils.randomAlphanumeric(length);
     }
+
+    public static String simplify(String string) {
+        return string
+                .replaceAll("\t", " ")
+                .replaceAll(" +", " ")
+                .trim();
+    }
 }
