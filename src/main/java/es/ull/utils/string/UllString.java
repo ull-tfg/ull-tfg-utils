@@ -8,6 +8,20 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 public class UllString {
 
+    public static boolean isAlphanumeric(String string) {
+        return Pattern
+                .compile("^[a-zA-ZÀ-ÿ\\d]*$")
+                .matcher(string)
+                .matches();
+    }
+
+    public static boolean isAlphanumericAndSpaces(String string) {
+        return Pattern
+                .compile("^[a-zA-ZÀ-ÿ\\d\\s]*$")
+                .matcher(string)
+                .matches();
+    }
+
     public static String random(int length) {
         return RandomStringUtils.randomAscii(length);
     }
