@@ -62,7 +62,7 @@ public class UllExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(UllException.class)
-    protected ResponseEntity<ApiError> handleKaiztenException(
+    protected ResponseEntity<ApiError> handleUllException(
             UllException exception,
             WebRequest request) {
         logger.info("UllException");
@@ -71,7 +71,7 @@ public class UllExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(UllBadRequestException.class)
-    protected ResponseEntity<ApiError> handleKaiztenBadRequestException(
+    protected ResponseEntity<ApiError> handleUllBadRequestException(
             UllBadRequestException exception,
             WebRequest request) {
         logger.info("UllBadRequestException");
@@ -80,7 +80,7 @@ public class UllExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(UllNotFoundException.class)
-    protected ResponseEntity<ApiError> handleKaiztenNotFoundException(
+    protected ResponseEntity<ApiError> handleUllNotFoundException(
             UllNotFoundException exception,
             WebRequest request) {
         logger.info("UllNotFoundException");
