@@ -15,6 +15,22 @@ public class ApiSubErrorMessageRejectedValueField extends ApiSubErrorMessage {
         this.field = field;
     }
 
+    public static ApiSubErrorMessageRejectedValueField of(String message, String field) {
+        return new ApiSubErrorMessageRejectedValueField(message, field);
+    }
+
+    public static ApiSubErrorMessageRejectedValueField of(String message, Object rejectedValue, String field) {
+        return new ApiSubErrorMessageRejectedValueField(message, rejectedValue, field);
+    }
+
+    public static ApiSubErrorMessageRejectedValueField of(Exception exception, String field) {
+        return new ApiSubErrorMessageRejectedValueField(exception.getMessage(), field);
+    }
+
+    public static ApiSubErrorMessageRejectedValueField of(Exception exception, Object rejectedValue, String field) {
+        return new ApiSubErrorMessageRejectedValueField(exception.getMessage(), rejectedValue, field);
+    }
+
     public String getField() {
         return this.field;
     }
