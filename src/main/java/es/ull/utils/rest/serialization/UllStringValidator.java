@@ -9,7 +9,6 @@ import es.ull.utils.reflection.UllReflection;
 import es.ull.utils.rest.error.ApiSubError;
 import es.ull.utils.rest.error.ApiSubErrorMessage;
 
-
 public class UllStringValidator {
 
     public static final String ERROR_UUID_NOT_DEFINED = "UUID cannot be obtained because String is not defined";

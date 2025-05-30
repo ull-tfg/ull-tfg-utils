@@ -3,42 +3,19 @@ package es.ull.utils.lang;
 public abstract class UllEither<L, R> {
 
     /**
-     * Private constructor to prevent direct instantiation.
+     * Private constructor to prevent instantiation. This class should only be instantiated through the static factory methods.
      */
     private UllEither() {
     }
 
-    /**
-     * Create a new Left instance.
-     * 
-     * @param <L>   Left value type.
-     * @param <R>   Right value type.
-     * @param value the Left value.
-     * @return a new UllEither instance.
-     */
     public static <L, R> UllEither<L, R> left(L value) {
         return new Left<>(value);
     }
 
-    /**
-     * Create a new Right instance.
-     * 
-     * @param <L>   Left value type.
-     * @param <R>   Right value type.
-     * @param value the Right value.
-     * @return a new UllEither instance.
-     */
     public static <L, R> UllEither<L, R> right(R value) {
         return new Right<>(value);
     }
 
-    /**
-     * Create an empty instance.
-     * 
-     * @param <L> Left value type.
-     * @param <R> Right value type.
-     * @return a new UllEither instance.
-     */
     public static <L, R> UllEither<L, R> empty() {
         return UllEither.right(null);
     }
@@ -87,31 +64,10 @@ public abstract class UllEither<L, R> {
      */
     public abstract R getRightOrElse(R other);
 
-    /**
-     * Map the Left value to a new value.
-     * 
-     * @param <T>    the new Left value type.
-     * @param mapper the mapping function.
-     * @return a new UllEither instance with the mapped value.
-     */
     public abstract <T> UllEither<T, R> mapLeft(java.util.function.Function<? super L, ? extends T> mapper);
 
-    /**
-     * Map the Right value to a new value.
-     * 
-     * @param <T>    the new Right value type.
-     * @param mapper the mapping function.
-     * @return a new UllEither instance with the mapped value.
-     */
     public abstract <T> UllEither<L, T> mapRight(java.util.function.Function<? super R, ? extends T> mapper);
 
-    /**
-     * FlatMap the Right value to a new UllEither instance.
-     * 
-     * @param <T>    the new Right value type.
-     * @param mapper the mapping function.
-     * @return a new UllEither instance with the mapped value.
-     */
     public abstract <T> UllEither<L, T> flatMap(java.util.function.Function<? super R, UllEither<L, T>> mapper);
 
     /**
@@ -303,13 +259,6 @@ public abstract class UllEither<L, R> {
         return this;
     }
 
-    /**
-     * Filter the Right value.
-     * 
-     * @param predicate     the predicate to test the Right value.
-     * @param errorSupplier the supplier to create a Left value if the predicate fails.
-     * @return a new UllEither instance.
-     */
     public UllEither<L, R> filterOrElse(java.util.function.Predicate<? super R> predicate, java.util.function.Supplier<? extends L> errorSupplier) {
         if (isRight() && !predicate.test(getRight())) {
             return UllEither.left(errorSupplier.get());
@@ -361,30 +310,12 @@ public abstract class UllEither<L, R> {
         return isRight() ? java.util.stream.Stream.of(getRight()) : java.util.stream.Stream.empty();
     }
 
-    /**
-     * Map the Left and Right values to new values.
-     * 
-     * @param <T>         The new Left value type.
-     * @param <U>         The new Right value type.
-     * @param leftMapper  Left value mapping function.
-     * @param rightMapper Right value mapping function.
-     * @return a new UllEither instance.
-     */
     public <T, U> UllEither<T, U> bimap(
             java.util.function.Function<? super L, ? extends T> leftMapper,
             java.util.function.Function<? super R, ? extends U> rightMapper) {
         return isLeft() ? UllEither.left(leftMapper.apply(getLeft())) : UllEither.right(rightMapper.apply(getRight()));
     }
 
-    /**
-     * Combine this instance with another instance.
-     * 
-     * @param <U>      The Right value type of the other instance.
-     * @param <T>      The new Right value type.
-     * @param other    the other instance.
-     * @param combiner the combiner function.
-     * @return a new UllEither instance.
-     */
     public <U, T> UllEither<L, T> combine(
             UllEither<L, U> other,
             java.util.function.BiFunction<? super R, ? super U, ? extends T> combiner) {
@@ -722,37 +653,16 @@ public abstract class UllEither<L, R> {
             return other;
         }
 
-        /**
-         * Map the Left value to a new value.
-         * 
-         * @param <T>    the new Left value type.
-         * @param mapper the mapping function.
-         * @return a new UllEither instance with the mapped value.
-         */
         @Override
         public <T> UllEither<T, R> mapLeft(java.util.function.Function<? super L, ? extends T> mapper) {
             return UllEither.left(mapper.apply(this.value));
         }
 
-        /**
-         * Map the Right value to a new value.
-         * 
-         * @param <T>    the new Right value type.
-         * @param mapper the mapping function.
-         * @return a new UllEither instance with the mapped value.
-         */
         @Override
         public <T> UllEither<L, T> mapRight(java.util.function.Function<? super R, ? extends T> mapper) {
             return UllEither.left(this.value);
         }
 
-        /**
-         * FlatMap the Right value to a new UllEither instance.
-         * 
-         * @param <T>    the new Right value type.
-         * @param mapper the mapping function.
-         * @return a new UllEither instance with the mapped value.
-         */
         @Override
         public <T> UllEither<L, T> flatMap(java.util.function.Function<? super R, UllEither<L, T>> mapper) {
             return UllEither.left(this.value);
@@ -877,37 +787,16 @@ public abstract class UllEither<L, R> {
             return this.value;
         }
 
-        /**
-         * Map the Left value to a new value.
-         * 
-         * @param <T>    the new Left value type.
-         * @param mapper the mapping function.
-         * @return a new UllEither instance with the mapped value.
-         */
         @Override
         public <T> UllEither<T, R> mapLeft(java.util.function.Function<? super L, ? extends T> mapper) {
             return UllEither.right(this.value);
         }
 
-        /**
-         * Map the Right value to a new value.
-         * 
-         * @param <T>    the new Right value type.
-         * @param mapper the mapping function.
-         * @return a new UllEither instance with the mapped value.
-         */
         @Override
         public <T> UllEither<L, T> mapRight(java.util.function.Function<? super R, ? extends T> mapper) {
             return UllEither.right(mapper.apply(this.value));
         }
 
-        /**
-         * FlatMap the Right value to a new UllEither instance.
-         * 
-         * @param <T>    the new Right value type.
-         * @param mapper the mapping function.
-         * @return a new UllEither instance with the mapped value.
-         */
         @Override
         public <T> UllEither<L, T> flatMap(java.util.function.Function<? super R, UllEither<L, T>> mapper) {
             return mapper.apply(this.value);

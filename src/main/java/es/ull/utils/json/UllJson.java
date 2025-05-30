@@ -8,6 +8,8 @@ import java.net.URI;
 import java.net.URL;
 import java.util.Optional;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import es.ull.utils.io.UllFile;
@@ -15,7 +17,44 @@ import es.ull.utils.io.UllFile;
 public class UllJson {
 
     public static final String FILE_EXTENSION = "json";
-    
+
+    public static boolean canBeParsedToArray(JSONObject jsonObject, String key) {
+        try {
+            jsonObject.getJSONArray(key);
+        } catch (JSONException exception) {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean canAllBeParsedToArray(JSONArray jsonArray) {
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                jsonArray.getJSONArray(i);
+            } catch (JSONException exception) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Method to check if a JSON array can be parsed to a double.
+     * 
+     * @param jsonArray the JSON array to check
+     * @return true if the JSON array can be parsed to a double, false otherwise
+     */
+    public static boolean canAllBeParsedToDouble(JSONArray jsonArray) {
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                jsonArray.getDouble(i);
+            } catch (JSONException exception) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static Optional<JSONObject> objectFromURI(URI uri) {
         String scheme = uri.getScheme();
         Optional<JSONObject> optional = Optional.empty();

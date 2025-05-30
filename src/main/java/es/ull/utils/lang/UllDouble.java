@@ -6,6 +6,47 @@ import java.util.Random;
 public class UllDouble {
 
     /**
+     * Private constructor to prevent instantiation of this utility class.
+     * 
+     * @throws UnsupportedOperationException if an attempt is made to instantiate this class.
+     */
+    private UllDouble() {
+        throw new UnsupportedOperationException(UllClass.ERROR_UTILITY_CLASS);
+    }
+
+    /**
+     * @param stringToParse
+     * @return
+     */
+    public static boolean canBeParsed(String stringToParse) {
+        if (stringToParse == null) {
+            return false;
+        }
+        try {
+            Double.parseDouble(stringToParse);
+            return true;
+        } catch (NumberFormatException exception) {
+            return false;
+        }
+    }
+
+    /**
+     * @param value
+     * @param lowerBound
+     * @param upperBound
+     * @return
+     */
+    public static double limitToRange(double value, double lowerBound, double upperBound) {
+        if (value < lowerBound) {
+            return lowerBound;
+        } else if (value > upperBound) {
+            return upperBound;
+        } else {
+            return value;
+        }
+    }
+
+    /**
      * Generates a random double value in the range [rangeMin, rangeMax).
      *
      * @param rangeMin the minimum value of the range (included).
