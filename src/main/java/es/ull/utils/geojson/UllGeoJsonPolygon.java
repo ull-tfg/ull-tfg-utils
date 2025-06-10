@@ -15,6 +15,7 @@ import org.json.JSONObject;
 /**
  * Class that represents a polygon in GeoJson format.
  * 
+ * @author Ull Analytics (development@kaizten.com)
  */
 public class UllGeoJsonPolygon extends UllGeoJsonGeometry {
 
@@ -171,11 +172,25 @@ public class UllGeoJsonPolygon extends UllGeoJsonGeometry {
         return polygon;
     }
 
+    /**
+     * Method to create a Polygon from a JSON object
+     * 
+     * @param string the JSON string representation of the Polygon
+     * @return the Polygon created from the JSON string
+     * @throws IllegalArgumentException if the JSON string is not valid or does not represent a Polygon
+     */
     public static UllGeoJsonPolygon from(String string) {
         final JSONObject json = new JSONObject(string);
         return UllGeoJsonPolygon.from(json);
     }
 
+    /**
+     * Method to create a Polygon from a JSON object
+     * 
+     * @param json the JSON object to create the Polygon from
+     * @return the Polygon created from the JSON object
+     * @throws IllegalArgumentException if the JSON object is not valid or does not represent a Polygon
+     */
     private static UllGeoJsonPolygon from(JSONObject json) {
         UllGeoJsonUtils.validateType(json, UllGeoJsonGeometryType.POLYGON);
         if (!json.has(UllGeoJsonFields.COORDINATES)) {
@@ -188,8 +203,7 @@ public class UllGeoJsonPolygon extends UllGeoJsonGeometry {
         if (coordinates.length() == 0) {
             throw new IllegalArgumentException(String.format(ERROR_INVALID_COORDINATE, UllGeoJsonFields.COORDINATES, coordinates));
         }
-        final String pepe = "";
-        final UllGeoJsonLinearRing ring = (UllGeoJsonLinearRing) UllGeoJsonLineString.from(pepe);
+        final UllGeoJsonLinearRing ring = UllGeoJsonLinearRing.from(coordinates);
         return new UllGeoJsonPolygon(ring);
     }
 

@@ -12,16 +12,13 @@ import es.ull.utils.geojson.input.UllGeoJsonFields;
 import es.ull.utils.geojson.utils.UllGeoJsonUtils;
 import es.ull.utils.json.UllJson;
 
-/**
- * Class that represents a LineString in GeoJson format.
- * 
- */
 public class UllGeoJsonLineString extends UllGeoJsonGeometry {
 
     public static final String ERROR_DIMENSIONS = "The array must have at most three elements";
     public static final String ERROR_PARSE_DOUBLE = "The array must contain only numbers";
     public static final String ERROR_COORDINATES_NOT_DEFINED = "The coordinates of the LineString are required";
     public static final String ERROR_COORDINATES_WRONG_FORMAT = "Coordinates must be an array";
+    public static final String ERROR_COORDINATES_ELEMENTS_WRONG_FORMAT = "Coordinates must be an array of points";
     public static final String ERROR_MINIMUM_POSITIONS = "The LineString must have at least two positions";
     /**
      * List of positions that form the LineString.
@@ -147,14 +144,18 @@ public class UllGeoJsonLineString extends UllGeoJsonGeometry {
      * @return the LineString obtained from the JSON object
      * @throws IllegalArgumentException if the JSON object is not a valid LineString
      */
-    public static List<UllGeoJsonPosition> extractPositions(JSONObject json) {
+    protected static List<UllGeoJsonPosition> extractPositions(JSONObject json) {
         if (!json.has(UllGeoJsonFields.COORDINATES)) {
             throw new IllegalArgumentException(ERROR_COORDINATES_NOT_DEFINED);
         }
         if (!UllJson.canBeParsedToArray(json, UllGeoJsonFields.COORDINATES)) {
             throw new IllegalArgumentException(ERROR_COORDINATES_WRONG_FORMAT);
         }
-        return extractPositions(json.getJSONArray(UllGeoJsonFields.COORDINATES));
+        final JSONArray coordinates = json.getJSONArray(UllGeoJsonFields.COORDINATES);
+        if (!UllJson.canAllBeParsedToArray(coordinates)) {
+            throw new IllegalArgumentException(ERROR_COORDINATES_ELEMENTS_WRONG_FORMAT);
+        }
+        return UllGeoJsonLineString.extractPositions(coordinates);
     }
 
     /**
@@ -165,7 +166,7 @@ public class UllGeoJsonLineString extends UllGeoJsonGeometry {
      * @throws IllegalArgumentException if the JSON array is not valid
      * @throws IllegalArgumentException if the JSON array does not have at least two positions
      */
-    public static List<UllGeoJsonPosition> extractPositions(JSONArray coordinates) {
+    protected static List<UllGeoJsonPosition> extractPositions(JSONArray coordinates) {
         if (coordinates.length() < 2) {
             throw new IllegalArgumentException(ERROR_MINIMUM_POSITIONS);
         }
@@ -186,7 +187,7 @@ public class UllGeoJsonLineString extends UllGeoJsonGeometry {
      */
     public static UllGeoJsonLineString from(JSONObject json) {
         UllGeoJsonUtils.validateType(json, UllGeoJsonGeometryType.LINE_STRING);
-        final List<UllGeoJsonPosition> positions = extractPositions(json);
+        final List<UllGeoJsonPosition> positions = UllGeoJsonLineString.extractPositions(json);
         return new UllGeoJsonLineString(positions);
     }
 

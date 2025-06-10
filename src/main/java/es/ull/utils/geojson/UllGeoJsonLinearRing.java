@@ -3,16 +3,16 @@ package es.ull.utils.geojson;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import es.ull.utils.lang.UllInteger;
 
-/**
- * Class that represents a LinearRing in GeoJson format.
- * 
- */
 public class UllGeoJsonLinearRing extends UllGeoJsonLineString {
 
     public static final String ERROR_MINIMUM_POSITIONS = "A LinearRing must have at least four positions";
     public static final String ERROR_FIRST_LAST_NOT_IDENTICAL = "The first and last positions in a linear ring must be identical";
+    public static final String ERROR_JSON_NOT_DEFINED = "JSON object cannot be null";
     public static final int MINIMUM_NUMBER_OF_POSITIONS = 4;
 
     /**
@@ -55,6 +55,55 @@ public class UllGeoJsonLinearRing extends UllGeoJsonLineString {
     }
 
     /**
+     * It obtains a list of positions from a JSON object.
+     * 
+     * @param json the JSON object to obtain the positions from
+     * @return the list of positions obtained from the JSON object
+     * @throws IllegalArgumentException if the JSON object is not valid
+     */
+    public static UllGeoJsonLinearRing from(JSONObject json) {
+        final List<UllGeoJsonPosition> positions = UllGeoJsonLineString.extractPositions(json);
+        return new UllGeoJsonLinearRing(positions);
+    }
+
+    /**
+     * It obtains a LinearRing from a JSON string.
+     * 
+     * @param string the JSON string to obtain the LinearRing from
+     * @return the LinearRing obtained from the JSON string
+     * @throws IllegalArgumentException if the JSON string is not valid
+     */
+    public static UllGeoJsonLinearRing from(String string) {
+        final JSONObject json = new JSONObject(string);
+        return UllGeoJsonLinearRing.from(json);
+    }
+
+    /**
+     * It creates a LinearRing from a JSON array of coordinates.
+     * 
+     * @param coordinates the JSON array of coordinates to obtain the LinearRing
+     *                    from
+     * @return the LinearRing obtained from the JSON array
+     * @throws IllegalArgumentException if the JSON array is not valid
+     */
+    public static UllGeoJsonLinearRing from(JSONArray coordinates) {
+        if (coordinates == null) {
+            throw new IllegalArgumentException(ERROR_JSON_NOT_DEFINED);
+        }
+        if (coordinates.length() < MINIMUM_NUMBER_OF_POSITIONS) {
+            throw new IllegalArgumentException(ERROR_MINIMUM_POSITIONS);
+        }
+        List<UllGeoJsonPosition> positions = new ArrayList<>();
+        for (int i = 0; i < coordinates.length(); i++) {
+            positions.add(UllGeoJsonPosition.from(coordinates.getJSONArray(i)));
+        }
+        if (!positions.get(0).equals(positions.get(positions.size() - 1))) {
+            throw new IllegalArgumentException(ERROR_FIRST_LAST_NOT_IDENTICAL);
+        }
+        return new UllGeoJsonLinearRing(positions);
+    }
+
+    /**
      * Method to check if the ring is valid according to the right-hand rule.
      * 
      * @return true if the ring is valid, false otherwise
@@ -82,7 +131,8 @@ public class UllGeoJsonLinearRing extends UllGeoJsonLineString {
     }
 
     /**
-     * It calculates the signed area of the linear ring. The formula used helps determine the orientation of the linear ring.
+     * It calculates the signed area of the linear ring. The formula used helps
+     * determine the orientation of the linear ring.
      * 
      * @return the signed area of the linear ring
      */
