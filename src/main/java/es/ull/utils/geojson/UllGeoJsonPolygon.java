@@ -203,7 +203,7 @@ public class UllGeoJsonPolygon extends UllGeoJsonGeometry {
         if (coordinates.length() == 0) {
             throw new IllegalArgumentException(String.format(ERROR_INVALID_COORDINATE, UllGeoJsonFields.COORDINATES, coordinates));
         }
-        final UllGeoJsonLinearRing ring = UllGeoJsonLinearRing.from(coordinates);
+        final UllGeoJsonLinearRing ring = UllGeoJsonLinearRing.from(coordinates.getJSONArray(0));
         return new UllGeoJsonPolygon(ring);
     }
 
