@@ -15,7 +15,7 @@ import org.json.JSONObject;
 /**
  * Class that represents a polygon in GeoJson format.
  * 
- * @author Ull Analytics (development@kaizten.com)
+ * @author Ull Analytics (development@ull.edu.es)
  */
 public class UllGeoJsonPolygon extends UllGeoJsonGeometry {
 
